@@ -1,0 +1,22 @@
+#!/bin/bash -u                       
+
+PATH=/bin:/usr/bin ; export PATH
+
+umask 022
+
+
+if [ $# -ne 2 ]; then
+    echo  " $0: Only two integer arguments." 1>&2
+    exit 1
+fi
+rm -rf math
+mkdir -p math/addsub math/muldivmod
+
+echo $(($1 + $2)) > math/addsub/add.txt
+echo $(($1 - $2)) > math/addsub/sub.txt
+echo $(($1 * $2)) > math/muldivmod/mul.txt
+echo $(($1 / $2)) > math/muldivmod/div.txt
+echo $(($1 % $2)) > math/muldivmod/mod.txt
+
+average=$(echo "scale=20; ($1 + $2) / 2" | bc)
+echo "average=$average" > math/average.txt
